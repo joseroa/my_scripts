@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Establecer el directorio actual como la ubicación de trabajo
+dir=$(pwd)
+
+# Contador para generar nombres secuenciales
+counter=1
+
+# Recorrer cada archivo en el directorio actual
+for file in *; do
+    # Verificar si el nombre del archivo contiene espacios
+    if [[ "$file" = *[[:space:]]* ]]; then
+        # Eliminar espacios del nombre de archivo
+        new_name=$(echo "$file" | tr -d ' ')
+        
+        # Obtener la extensión del archivo
+        extension="${new_name##*.}"
+        
+        # Generar un nuevo nombre con el contador
+        new_name="$counter.$extension"
+        
+        # Incrementar el contador
+        ((counter++))
+        
+        # Renombrar el archivo
+        mv "$dir/$file" "$dir/$new_name"
+        
+        # Imprimir el cambio realizado
+        echo "Archivo renombrado: $file -> $new_name"
+    fi
+done
+
